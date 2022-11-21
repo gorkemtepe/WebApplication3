@@ -19,8 +19,4 @@
     <PackageReference Include="NETCore.Encrypt" Version="2.1.0" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="555\" />
-  </ItemGroup>
-
 </Project>
