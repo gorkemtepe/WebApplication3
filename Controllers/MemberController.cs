@@ -27,5 +27,31 @@ namespace WebApplication2.Controllers
             List<UserModel> users = _databaseContext.Users.ToList().Select(x => _mapper.Map<UserModel>(x)).ToList();
             return PartialView("_MemberListPartial", users);
         }
+
+        public IActionResult AddNewUserPartial()
+        {   
+            return PartialView("_AddNewUserPartial", new CreateUserModel());
+        }
+
+        public IActionResult AddNewUser(CreateUserModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                if (_databaseContext.Users.Any(x=>x.Username.ToLower() == model.Username.ToLower()))
+                {
+                    ModelState.AddModelError(nameof(model.Username), "Username is already exists.");
+                    return View(model);
+                }
+
+                User user = _mapper.Map<User>(model);
+
+                _databaseContext.Users.Add(user);
+                _databaseContext.SaveChanges();
+
+                return PartialView("_AddNewUserPartial", model);
+            }
+
+            return PartialView("_AddNewUserPartial", model);
+        }
     }
 }
