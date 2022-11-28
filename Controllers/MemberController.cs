@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using WebApplication2.Entity;
+using WebApplication2.Models;
 
 namespace WebApplication2.Controllers
 {
@@ -21,9 +22,10 @@ namespace WebApplication2.Controllers
             return View();
         }
 
-        //public IActionResult MemberListPartial()
-        //{
-
-        //}
+        public IActionResult MemberListPartial()
+        {
+            List<UserModel> users = _databaseContext.Users.ToList().Select(x => _mapper.Map<UserModel>(x)).ToList();
+            return PartialView("_MemberListPartial", users);
+        }
     }
 }
